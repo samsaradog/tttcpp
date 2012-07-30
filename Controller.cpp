@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <iostream>
+#include <cstdlib>
 
 #include "Controller.h"
 #include "StepFactory.h"

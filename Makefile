@@ -13,7 +13,7 @@ TESTAPP = ttttest
 APP = ttt
 MAINOBJ = ttt.o
 OBJS =  Mapper.o Game.o FindWinner.o Player.o View.o RuleFactory.o Rules.o Controller.o StepFactory.o Steps.o
-TESTOBJS = main.o MapTest.o GameTest.o FindWinnerTest.o ViewTest.o PlayerTest.o RuleTest.o ControllerTest.o StepTest.o
+TESTOBJS = Main.o MapTest.o GameTest.o FindWinnerTest.o ViewTest.o PlayerTest.o RuleTest.o ControllerTest.o StepTest.o
 
 LIBS = -lstdc++  
 

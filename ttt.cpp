@@ -30,5 +30,5 @@ int main()
     cout << display_message;
   }
 
-  exit(0);
+  return(0);
 }
