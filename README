@@ -2,6 +2,9 @@ This project implements the classic Tic-Tac-Toe game using a simple, command
 line interface. Compiling and running it should be possible on any standard
 Un*x implementation that has a g++ compiler and STL available.
 
+You do need to have cppunit installed, and LD_LIBRARY_PATH set to point
+to where its so file lives.
+
 =====================================
 
 TTT Game Design
