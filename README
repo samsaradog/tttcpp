@@ -1,0 +1,215 @@
+This project implements the classic Tic-Tac-Toe game using a simple, command
+line interface. Compiling and running it should be possible on any standard
+Un*x implementation that has a g++ compiler and STL available.
+
+=====================================
+
+TTT Game Design
+
+-> Numbering the game grid <-
+
+ 0 | 1 | 2
+-----------
+ 7 | 8 | 3
+-----------
+ 6 | 5 | 4
+
+This allows even numbers to be at the corners, 
+odd numbers on the sides and the middle square 
+to be 8. This scheme makes the rules for choosing
+a computer move much easier.
+
+The grid presented to the user will be more straightforward:
+
+ 1 | 2 | 3
+-----------
+ 4 | 5 | 6
+-----------
+ 7 | 8 | 9
+
+Note that the rest of the description of the game will be in
+terms of the computer grid rather than that presented to the human.
+
+-> Winning combinations <-
+
+(0 1 2)
+(0 4 8)
+(0 6 7)
+(1 5 8)
+(2 3 4)
+(2 6 8)
+(3 7 8)
+(4 5 6)
+
+-> Blocking combinations <-
+
+If these pairs are found in a set of moves, then picking the corresponding
+square will produce a win. The computer will use this to either block a 
+potential win by the human, or itself take the square to win the game.
+
+(0 ((1 2) (6 7) (8 4)))
+(1 ((5 8) (0 2)))
+(2 ((0 1) (6 8) (3 4)))
+(3 ((7 8) (2 4)))
+(4 ((2 3) (0 8) (5 6)))
+(5 ((1 8) (4 6)))
+(6 ((4 5) (2 8) (0 7)))
+(7 ((0 6) (3 8)))
+(8 ((0 4) (1 5) (2 6) (3 7)))
+
+-> Processing sequence after human makes a move <-
+
+1) Check for valid human move. If not valid, prompt for
+another move. Otherwise continue.
+
+2) Add the human move and check whether the human has 
+won. If so, announce the win and prompt for another game. 
+Otherwise continue.
+
+3) Check whether any squares are free after the 
+human has moved. If not, declare a draw. Otherwise
+continue.
+
+4) Check whether the computer can move and win. If so,
+make the move, announce the win and prompt for another
+game. Otherwise continue.
+
+5) Check whether the computer can block the human
+from winning. If so, make the move and check whether
+any other moves are available. If so, prompt for
+another human move. If not, declare a draw.
+Otherwise continue.
+
+6) Find the best computer move. Make the move and
+check whether another move is available. If not,
+declare a draw and ask for another game. If so, prompt 
+the human for another move.
+
+-> Processing sequence for selecting a computer move <-
+
+1) If only one square is free, pick it. Will have already
+checked above whether this was a win for the computer, so
+the game must be a draw. 
+
+2) Else if the center square is not taken, take it.
+
+3) Else if only the 8 square is taken (by the human), 
+take an even (corner) square.
+
+4) Else if computer has the center square and human has
+one other square, move in square ((human + 3) mod 8).
+
+This covers both odd and even cases. If the human has
+selected an odd square, in this case 1, the computer
+will move to 4 and win:
+
+   | X |
+-----------
+   | O | 
+-----------
+   |   | O
+
+If the human has taken an even square, in this case
+0, the computer will move to 3 and force a draw. Note that
+no other rules are needed to complete the draw. The human's
+block of the computer winning will force the computer
+to block the human from winning, which will continue to
+a draw unless the human fails to block.
+
+ X |   |
+----------
+   | O | O
+-----------
+   |   | 
+
+
+5) Else if the computer has the 8 square and human
+has two even squares, move to an odd square.
+
+This covers the case:
+
+ X |   |
+-----------
+   | O | 
+-----------
+   |   | X
+
+If the computer picks a corner square, the human will
+pick the other corner square and win.
+
+6) Else if the computer has the 8 square, the human
+has an odd and an even square:
+
+if odd == ((even + 3) mod 8) then move ((odd + 2) mod 8)
+if odd == ((even + 5) mod 8) then move ((even + 3) mod 8)
+
+This is a hard case. It could be either
+
+ X |   |
+-----------
+   | O | 
+-----------
+   | X | 
+
+or
+
+ X |   |
+-----------
+   | O | X
+-----------
+   |   | 
+
+If the computer picks wrong, the human will pick the 
+corner between the two previous moves and win. Going
+to the even move plus two forces the human to block
+and will result in a draw.
+
+7) If the computer has an even square, and the human has
+an even square and the 8 square, pick another corner square.
+
+ X |   |
+-----------
+   | X | 
+-----------
+   |   | O
+
+If the computer picks an odd square, the human can take a corner 
+square and win.  
+
+8) Else if the computer has 8 and human has two odd, 
+pick the even square one greater than the greatest odd. If 
+the human is able to pick the square between its previous
+moves, the human will win.
+
+   | X |
+-----------
+   | O | X
+-----------
+   |   | 
+
+As long as the human blocks correctly, the game will end
+in a draw. This also covers the following case:
+
+   |   |
+-----------
+ X | O | X
+-----------
+   |   | 
+
+
+9) Else if there is more than one square open, take any of them.
+
+This covers the cases like:
+
+ X |   |
+-----------
+ O | O | X
+-----------
+ X |   | 
+
+   | X | O
+-----------
+   | O | X
+-----------
+ X |   | 
+
