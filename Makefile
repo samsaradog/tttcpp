@@ -4,7 +4,7 @@
 # When running this test, be sure to include ${BASE_PATH}/lib in the
 # environment variable LD_LIBRARY_PATH
 
-#CPPUNIT_PATH=${BASE_PATH}
+#CPPUNIT_PATH=${BASE_PATH} 
 
 CFLAGS?= -Wall 
 LFLAGS?= 
@@ -15,7 +15,7 @@ MAINOBJ = ttt.o
 OBJS =  Mapper.o Game.o FindWinner.o Player.o View.o RuleFactory.o Rules.o Controller.o StepFactory.o Steps.o
 TESTOBJS = Main.o MapTest.o GameTest.o FindWinnerTest.o ViewTest.o PlayerTest.o RuleTest.o ControllerTest.o StepTest.o
 
-LIBS = -lstdc++  
+LIBS = -lstdc++ -ldl 
 
 # don't want to include cppunit in the shared object library
 TESTLIBS = -lcppunit
