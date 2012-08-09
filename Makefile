@@ -17,7 +17,7 @@ TESTOBJS = Main.o MapTest.o GameTest.o FindWinnerTest.o ViewTest.o PlayerTest.o 
 
 LIBS = -lstdc++ -ldl 
 
-# don't want to include cppunit in the shared object library
+# don't want to include cppunit in the finished application
 TESTLIBS = -lcppunit
 
 all: check $(APP)

@@ -2,7 +2,7 @@
 
 #include <cctype>
 #include <iostream>
-#include <cstdlib>
+//#include <cstdlib>
 
 #include "Controller.h"
 #include "StepFactory.h"
@@ -17,6 +17,10 @@ Controller::Controller() : human_m(), computer_m(),
   StepFactory the_factory;
 
   step_m_p = the_factory.getSteps();
+
+  // seed the random number generators
+
+  srand(time(0));
 }
 
 //---------------------------------------------------------------

@@ -17,8 +17,6 @@ int Rule1::getMove(const Player* human_p,
 {
   // Seed the random sequencer for any of the following rules
 
-  srand(time(NULL));
-
   int return_value = 0;
 
   IntSet available_moves = game_p->getAvailable();
